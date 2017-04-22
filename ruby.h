@@ -9,7 +9,7 @@
   Copyright (C) 2000  Network Applied Communication Laboratory, Inc.
   Copyright (C) 2000  Information-technology Promotion Agency, Japan
 
-**********************************************************************/
+ **********************************************************************/
 
 #ifndef RUBY_H
 #define RUBY_H
@@ -34,7 +34,7 @@ extern "C" {
 #include <stddef.h>
 #include <stdio.h>
 
-/* need to include <ctype.h> to use these macros */
+  /* need to include <ctype.h> to use these macros */
 #ifndef ISPRINT
 #define ISASCII(c) isascii((unsigned char)(c))
 #undef ISPRINT
@@ -68,8 +68,8 @@ extern "C" {
 #if SIZEOF_LONG != SIZEOF_VOIDP
 # error ---->> ruby requires sizeof(void*) == sizeof(long) to be compiled. <<----
 #endif
-typedef unsigned long VALUE;
-typedef unsigned long ID;
+  typedef unsigned long VALUE;
+  typedef unsigned long ID;
 
 #ifdef __STDC__
 # include <limits.h>
@@ -78,7 +78,7 @@ typedef unsigned long ID;
 #  ifdef HAVE_LIMITS_H
 #   include <limits.h>
 #  else
-    /* assuming 32bit(2's compliment) long */
+  /* assuming 32bit(2's compliment) long */
 #   define LONG_MAX 2147483647
 #  endif
 # endif
@@ -98,7 +98,7 @@ typedef unsigned long ID;
 #   ifdef _I64_MAX
 #    define LLONG_MAX _I64_MAX
 #   else
-    /* assuming 64bit(2's complement) long long */
+  /* assuming 64bit(2's complement) long long */
 #    define LLONG_MAX 9223372036854775807LL
 #   endif
 #  endif
@@ -123,19 +123,19 @@ typedef unsigned long ID;
 #define INT2FIX(i) ((VALUE)(((long)(i))<<1 | FIXNUM_FLAG))
 #define LONG2FIX(i) INT2FIX(i)
 #define rb_fix_new(v) INT2FIX(v)
-VALUE rb_int2inum _((long));
+  VALUE rb_int2inum _((long));
 #define INT2NUM(v) rb_int2inum(v)
 #define LONG2NUM(v) INT2NUM(v)
 #define rb_int_new(v) rb_int2inum(v)
-VALUE rb_uint2inum _((unsigned long));
+  VALUE rb_uint2inum _((unsigned long));
 #define UINT2NUM(v) rb_uint2inum(v)
 #define ULONG2NUM(v) UINT2NUM(v)
 #define rb_uint_new(v) rb_uint2inum(v)
 
 #if HAVE_LONG_LONG
-VALUE rb_ll2inum _((LONG_LONG));
+  VALUE rb_ll2inum _((LONG_LONG));
 #define LL2NUM(v) rb_ll2inum(v)
-VALUE rb_ull2inum _((unsigned LONG_LONG));
+  VALUE rb_ull2inum _((unsigned LONG_LONG));
 #define ULL2NUM(v) rb_ull2inum(v)
 #endif
 
@@ -160,11 +160,11 @@ VALUE rb_ull2inum _((unsigned LONG_LONG));
 #define ID2SYM(x) ((VALUE)(((long)(x))<<8|SYMBOL_FLAG))
 #define SYM2ID(x) RSHIFT((long)x,8)
 
-/* special contants - i.e. non-zero and non-fixnum constants */
+  /* special contants - i.e. non-zero and non-fixnum constants */
 #define Qfalse 0
 #define Qtrue  2
 #define Qnil   4
-#define Qundef 6		/* undefined value for placeholder */
+#define Qundef 6    /* undefined value for placeholder */
 
 #define RTEST(v) (((VALUE)(v) & ~Qnil) != 0)
 #define NIL_P(v) ((VALUE)(v) == Qnil)
@@ -206,36 +206,36 @@ VALUE rb_ull2inum _((unsigned LONG_LONG));
 
 #define TYPE(x) rb_type((VALUE)(x))
 
-void rb_check_type _((VALUE,int));
+  void rb_check_type _((VALUE,int));
 #define Check_Type(v,t) rb_check_type((VALUE)(v),t)
 
-VALUE rb_str_to_str _((VALUE));
-VALUE rb_string_value _((volatile VALUE*));
-char *rb_string_value_ptr _((volatile VALUE*));
+  VALUE rb_str_to_str _((VALUE));
+  VALUE rb_string_value _((volatile VALUE*));
+  char *rb_string_value_ptr _((volatile VALUE*));
 
 #define StringValue(v) if (TYPE(v) != T_STRING) rb_string_value(&(v))
-void rb_check_safe_str _((VALUE));
+  void rb_check_safe_str _((VALUE));
 #define SafeStringValue(v) do {\
-    StringValue(v);\
-    rb_check_safe_str(v);\
+  StringValue(v);\
+  rb_check_safe_str(v);\
 } while (0)
 #define StringValuePtr(v) rb_string_value_ptr(&(v))
-/* obsolete macro - use SafeStringValue(v) */
+  /* obsolete macro - use SafeStringValue(v) */
 #define Check_SafeStr(v) rb_check_safe_str((VALUE)(v))
 
-void rb_secure _((int));
-EXTERN int ruby_safe_level;
+  void rb_secure _((int));
+  EXTERN int ruby_safe_level;
 #define rb_safe_level() (ruby_safe_level)
-void rb_set_safe_level _((int));
+  void rb_set_safe_level _((int));
 
-long rb_num2long _((VALUE));
-unsigned long rb_num2ulong _((VALUE));
+  long rb_num2long _((VALUE));
+  unsigned long rb_num2ulong _((VALUE));
 #define NUM2LONG(x) (FIXNUM_P(x)?FIX2LONG(x):rb_num2long((VALUE)x))
 #define NUM2ULONG(x) rb_num2ulong((VALUE)x)
 #if SIZEOF_INT < SIZEOF_LONG
-int rb_num2int _((VALUE));
+  int rb_num2int _((VALUE));
 #define NUM2INT(x) (FIXNUM_P(x)?FIX2INT(x):rb_num2int((VALUE)x))
-int rb_fix2int _((VALUE));
+  int rb_fix2int _((VALUE));
 #define FIX2INT(x) rb_fix2int((VALUE)x)
 #define NUM2UINT(x) ((unsigned int)NUM2INT(x))
 #define FIX2UINT(x) ((unsigned int)FIX2INT(x))
@@ -247,8 +247,8 @@ int rb_fix2int _((VALUE));
 #endif
 
 #if HAVE_LONG_LONG
-LONG_LONG rb_num2ll _((VALUE));
-unsigned LONG_LONG rb_num2ull _((VALUE));
+  LONG_LONG rb_num2ll _((VALUE));
+  unsigned LONG_LONG rb_num2ull _((VALUE));
 # define NUM2LL(x) (FIXNUM_P(x)?FIX2LONG(x):rb_num2ll((VALUE)x))
 #endif
 
@@ -258,103 +258,103 @@ unsigned LONG_LONG rb_num2ull _((VALUE));
 # define NUM2OFFT(x) NUM2LONG(x)
 #endif
 
-double rb_num2dbl _((VALUE));
+  double rb_num2dbl _((VALUE));
 #define NUM2DBL(x) rb_num2dbl((VALUE)(x))
 
-/* obsolete API - use StringValue() */
-char *rb_str2cstr _((VALUE,long*));
-/* obsolete API - use StringValuePtr() */
+  /* obsolete API - use StringValue() */
+  char *rb_str2cstr _((VALUE,long*));
+  /* obsolete API - use StringValuePtr() */
 #define STR2CSTR(x) rb_str2cstr((VALUE)(x),0)
 
 #define NUM2CHR(x) (((TYPE(x) == T_STRING)&&(RSTRING(x)->len>=1))?\
-                     RSTRING(x)->ptr[0]:(char)(NUM2INT(x)&0xff))
+    RSTRING(x)->ptr[0]:(char)(NUM2INT(x)&0xff))
 #define CHR2FIX(x) INT2FIX((long)((x)&0xff))
 
-VALUE rb_newobj _((void));
+  VALUE rb_newobj _((void));
 #define NEWOBJ(obj,type) type *obj = (type*)rb_newobj()
 #define OBJSETUP(obj,c,t) do {\
-    RBASIC(obj)->flags = (t);\
-    RBASIC(obj)->klass = (c);\
-    if (rb_safe_level() >= 3) FL_SET(obj, FL_TAINT);\
+  RBASIC(obj)->flags = (t);\
+  RBASIC(obj)->klass = (c);\
+  if (rb_safe_level() >= 3) FL_SET(obj, FL_TAINT);\
 } while (0)
 #define CLONESETUP(clone,obj) do {\
-    OBJSETUP(clone,rb_singleton_class_clone((VALUE)obj),RBASIC(obj)->flags);\
-    rb_singleton_class_attached(RBASIC(clone)->klass, (VALUE)clone);\
-    if (FL_TEST(obj, FL_EXIVAR)) rb_copy_generic_ivar((VALUE)clone,(VALUE)obj);\
+  OBJSETUP(clone,rb_singleton_class_clone((VALUE)obj),RBASIC(obj)->flags);\
+  rb_singleton_class_attached(RBASIC(clone)->klass, (VALUE)clone);\
+  if (FL_TEST(obj, FL_EXIVAR)) rb_copy_generic_ivar((VALUE)clone,(VALUE)obj);\
 } while (0)
 #define DUPSETUP(dup,obj) do {\
-    OBJSETUP(dup,rb_obj_class(obj),(RBASIC(obj)->flags)&(T_MASK|FL_EXIVAR|FL_TAINT));\
-    if (FL_TEST(obj, FL_EXIVAR)) rb_copy_generic_ivar((VALUE)dup,(VALUE)obj);\
+  OBJSETUP(dup,rb_obj_class(obj),(RBASIC(obj)->flags)&(T_MASK|FL_EXIVAR|FL_TAINT));\
+  if (FL_TEST(obj, FL_EXIVAR)) rb_copy_generic_ivar((VALUE)dup,(VALUE)obj);\
 } while (0)
 
-struct RBasic {
+  struct RBasic {
     unsigned long flags;
     VALUE klass;
-};
+  };
 
 struct RObject {
-    struct RBasic basic;
-    struct st_table *iv_tbl;
+  struct RBasic basic;
+  struct st_table *iv_tbl;
 };
 
 struct RClass {
-    struct RBasic basic;
-    struct st_table *iv_tbl;
-    struct st_table *m_tbl;
-    VALUE super;
+  struct RBasic basic;
+  struct st_table *iv_tbl;
+  struct st_table *m_tbl;
+  VALUE super;
 };
 
 struct RFloat {
-    struct RBasic basic;
-    double value;
+  struct RBasic basic;
+  double value;
 };
 
 #define ELTS_SHARED FL_USER2
 
 struct RString {
-    struct RBasic basic;
-    long len;
-    char *ptr;
-    union {
-	long capa;
-	VALUE shared;
-    } aux;
+  struct RBasic basic;
+  long len;
+  char *ptr;
+  union {
+    long capa;
+    VALUE shared;
+  } aux;
 };
 
 struct RArray {
-    struct RBasic basic;
-    long len;
-    union {
-	long capa;
-	VALUE shared;
-    } aux;
-    VALUE *ptr;
+  struct RBasic basic;
+  long len;
+  union {
+    long capa;
+    VALUE shared;
+  } aux;
+  VALUE *ptr;
 };
 
 struct RRegexp {
-    struct RBasic basic;
-    struct re_pattern_buffer *ptr;
-    long len;
-    char *str;
+  struct RBasic basic;
+  struct re_pattern_buffer *ptr;
+  long len;
+  char *str;
 };
 
 struct RHash {
-    struct RBasic basic;
-    struct st_table *tbl;
-    int iter_lev;
-    VALUE ifnone;
+  struct RBasic basic;
+  struct st_table *tbl;
+  int iter_lev;
+  VALUE ifnone;
 };
 
 struct RFile {
-    struct RBasic basic;
-    struct OpenFile *fptr;
+  struct RBasic basic;
+  struct OpenFile *fptr;
 };
 
 struct RData {
-    struct RBasic basic;
-    void (*dmark) _((void*));
-    void (*dfree) _((void*));
-    void *data;
+  struct RBasic basic;
+  void (*dmark) _((void*));
+  void (*dfree) _((void*));
+  void *data;
 };
 
 #define DATA_PTR(dta) (RDATA(dta)->data)
@@ -367,30 +367,30 @@ typedef void (*RUBY_DATA_FUNC) _((void*));
 VALUE rb_data_object_alloc _((VALUE,void*,RUBY_DATA_FUNC,RUBY_DATA_FUNC));
 
 #define Data_Wrap_Struct(klass,mark,free,sval)\
-    rb_data_object_alloc(klass,sval,(RUBY_DATA_FUNC)mark,(RUBY_DATA_FUNC)free)
+  rb_data_object_alloc(klass,sval,(RUBY_DATA_FUNC)mark,(RUBY_DATA_FUNC)free)
 
 #define Data_Make_Struct(klass,type,mark,free,sval) (\
     sval = ALLOC(type),\
     memset(sval, 0, sizeof(type)),\
     Data_Wrap_Struct(klass,mark,free,sval)\
-)
+    )
 
 #define Data_Get_Struct(obj,type,sval) do {\
-    Check_Type(obj, T_DATA); \
-    sval = (type*)DATA_PTR(obj);\
+  Check_Type(obj, T_DATA); \
+  sval = (type*)DATA_PTR(obj);\
 } while (0)
 
 struct RStruct {
-    struct RBasic basic;
-    long len;
-    VALUE *ptr;
+  struct RBasic basic;
+  long len;
+  VALUE *ptr;
 };
 
 struct RBignum {
-    struct RBasic basic;
-    char sign;
-    long len;
-    void *digits;
+  struct RBasic basic;
+  char sign;
+  long len;
+  void *digits;
 };
 
 #define R_CAST(st)   (struct st*)
@@ -519,9 +519,9 @@ NORETURN(void rb_iter_break _((void)));
 NORETURN(void rb_exit _((int)));
 NORETURN(void rb_notimplement _((void)));
 
-void rb_warning __((const char*, ...));		/* reports if `-w' specified */
-void rb_sys_warning __((const char*, ...));	/* reports if `-w' specified */
-void rb_warn __((const char*, ...));		/* reports always */
+void rb_warning __((const char*, ...));   /* reports if `-w' specified */
+void rb_sys_warning __((const char*, ...)); /* reports if `-w' specified */
+void rb_warn __((const char*, ...));    /* reports always */
 
 VALUE rb_each _((VALUE));
 VALUE rb_yield _((VALUE));
@@ -608,16 +608,16 @@ static inline VALUE
 rb_class_of(VALUE obj)
 #else
 rb_class_of(obj)
-    VALUE obj;
+  VALUE obj;
 #endif
 {
-    if (FIXNUM_P(obj)) return rb_cFixnum;
-    if (obj == Qnil) return rb_cNilClass;
-    if (obj == Qfalse) return rb_cFalseClass;
-    if (obj == Qtrue) return rb_cTrueClass;
-    if (SYMBOL_P(obj)) return rb_cSymbol;
+  if (FIXNUM_P(obj)) return rb_cFixnum;
+  if (obj == Qnil) return rb_cNilClass;
+  if (obj == Qfalse) return rb_cFalseClass;
+  if (obj == Qtrue) return rb_cTrueClass;
+  if (SYMBOL_P(obj)) return rb_cSymbol;
 
-    return RBASIC(obj)->klass;
+  return RBASIC(obj)->klass;
 }
 
 static inline int
@@ -625,16 +625,16 @@ static inline int
 rb_type(VALUE obj)
 #else
 rb_type(obj)
-   VALUE obj;
+  VALUE obj;
 #endif
 {
-    if (FIXNUM_P(obj)) return T_FIXNUM;
-    if (obj == Qnil) return T_NIL;
-    if (obj == Qfalse) return T_FALSE;
-    if (obj == Qtrue) return T_TRUE;
-    if (obj == Qundef) return T_UNDEF;
-    if (SYMBOL_P(obj)) return T_SYMBOL;
-    return BUILTIN_TYPE(obj);
+  if (FIXNUM_P(obj)) return T_FIXNUM;
+  if (obj == Qnil) return T_NIL;
+  if (obj == Qfalse) return T_FALSE;
+  if (obj == Qtrue) return T_TRUE;
+  if (obj == Qundef) return T_UNDEF;
+  if (SYMBOL_P(obj)) return T_SYMBOL;
+  return BUILTIN_TYPE(obj);
 }
 
 static inline int
@@ -642,11 +642,11 @@ static inline int
 rb_special_const_p(VALUE obj)
 #else
 rb_special_const_p(obj)
-    VALUE obj;
+  VALUE obj;
 #endif
 {
-    if (SPECIAL_CONST_P(obj)) return Qtrue;
-    return Qfalse;
+  if (SPECIAL_CONST_P(obj)) return Qtrue;
+  return Qfalse;
 }
 
 #include "intern.h"
